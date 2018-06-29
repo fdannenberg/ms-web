@@ -1,0 +1,26 @@
+$def with (greeting, greeting2, result, computeTime)
+
+<html>
+    <head>
+        <title>AnnealServ v0.1</title>
+    </head>
+<body>
+
+
+<h1>Anneal webserver v0.1</h1>
+
+$if greeting:
+    Computed annealing rate (job &#09 : <code style="color	green; font-size: 1em;">$greeting2</code> took <code style="color: green; font-size: 1em;">$computeTime </code> seconds )<br />
+    <br />  
+    Sequence	&#09 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
+    Rate 			 : <code style="color: green; font-size: 1em;">$result /M /s </code>  
+ 
+    
+$else:
+    <em>Please supply a job name and sequence.</em>
+
+<text> <br />   <br />  Frits Dannenberg, Winfree group. Caltech 2017, all rights reserved.</text>
+
+
+</body>
+</html>
