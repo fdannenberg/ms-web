@@ -15,11 +15,14 @@ class Index(object):
 
     def POST(self):
         
-        form = web.input(name="Nameless job", sequence="AGCGTGA")
+        form = web.input(substrate="Nameless job", sequence="AGCGTGA")
 
-        form.result = compute(form.sequence )
+        try:
+            form.result = compute(form.sequence, form.substrate )
+            return render.index(greeting = form.sequence, substrate = form.substrate, result = form.result[0], computeTime=form.result[1])
 
-        return render.index(greeting = form.sequence, greeting2 = form.name, result = form.result[0], computeTime=form.result[1])
+        except ValueError:
+            return render.errorpage(sequence = form.sequence)
         
 
 if __name__ == "__main__":

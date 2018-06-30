@@ -1,4 +1,4 @@
-$def with (greeting, substrate, result, computeTime)
+$def with (greeting)
 
 <html>
     <head>
@@ -10,16 +10,12 @@ $def with (greeting, substrate, result, computeTime)
 <h1>Anneal webserver v0.1</h1>
 
 $if greeting:
-    Computed hybridization rate (job &#09 : <code style="color	green; font-size: 1em;">$substrate</code> took <code style="color: green; font-size: 1em;">$computeTime </code> seconds )<br />
+    Did not compute hybridization rate: value error.
     <br />  
-    Simulation time	 : <code style="color: green; font-size: 1em;">$computeTime </code>  <br />
-    Material		 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
     Sequence	&#09 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
-    Rate 			 : <code style="color: green; font-size: 1em;">$result /M /s </code>  
  
-    
 $else:
-    <em>Please supply a job name and sequence.</em>
+    <em>Please supply a sequence.</em>
 <br>
 
 
