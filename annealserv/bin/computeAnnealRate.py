@@ -1,47 +1,46 @@
-from multistrand.concurrent import MergeSim
-from multistrand.experiment import standardOptions
+from multistrand.concurrent import MergeSim, MergeSimSettings
+from multistrand.experiment import standardOptions, hybridization
 
 A_TIME_OUT = 1.0
 MAX_SEQ_LEN = 40
+MAX_TRIALS = 500
 
-class customResult(object):
+# class customResult(object):
+#     
+#     def __init__(self):
+#     
+#         self.thing = 'x'
     
-    def __init__(self):
-    
-        self.thing = 'x'
-    
- 
-def first_step_simulation(strand_seq, trials, T=20.0, material="DNA"):
+def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
  
     print ("Running first step mode simulations for %s (with Boltzmann sampling)..." % (strand_seq))
         
     def getOptions(trials, material):
          
-        o = standardOptions("First Step", tempIn=25.0, trials=200, timeOut = A_TIME_OUT) 
+        o = standardOptions(tempIn=25.0, trials=200, timeOut = A_TIME_OUT) 
         hybridization(o, strand_seq, trials)
         
-          
         return o
-      
-    myMultistrand.setOptionsFactory2(getOptions, trials, material)
+    
+    MergeSimSettings.max_trials = MAX_TRIALS
+    
+    myMultistrand = MergeSim()
+    myMultistrand.setOptionsFactory2(getOptions, 60, material)
+    myMultistrand.setTerminationCriteria(successC)
     myMultistrand.run()
-    dataset = myMultistrand.results
- 
     
-#     myResult =customResult()
-#     
-#     myResult.k1 =migrationRate(dataset, 50e-9).k1()
-#     myResult.runTime = myMultistrand.runTime
-    
-    return migrationRate(dataset, 50e-9).k1() #, myMultistrand.runTime
+    return myMultistrand.results.kEff(concentration = 10 ** -9) #, myMultistrand.runTime
 
 
-def compute(strand_seq):
+def compute(strand_seq, materialIn=None):
+    
+    if not (materialIn == "RNA" or materialIn == "rna"):
+        materialIn = "DNA" 
     
     if len(strand_seq) < MAX_SEQ_LEN:
-        result = first_step_simulation(strand_seq, 200, T=25.0, material="DNA")
+        result = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
     else:
         result = 10 ** - 99
     
 
-    return "{:.2e}".format(float(result.k1)), '999.0'
+    return "{:.2e}".format(float(result)), '999.0'
