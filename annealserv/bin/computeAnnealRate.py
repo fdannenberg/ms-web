@@ -2,7 +2,7 @@ from multistrand.concurrent import MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
 
 A_TIME_OUT = 1.0
-MAX_TRIALS = 200
+MAX_TRIALS = 200000
 
 # class customResult(object):
 #     
@@ -28,14 +28,13 @@ def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
     myMultistrand.setTerminationCriteria(successC)
     myMultistrand.run()
     
-    return myMultistrand.results.kEff(concentration = 10 ** -9) #, myMultistrand.runTime
+    print myMultistrand.results
+    
+    return (myMultistrand.results.kEff(concentration = 10 ** -9) , myMultistrand.runTime)
 
 
 def compute(strand_seq, materialIn=None):
     
-    if not (materialIn == "RNA" or materialIn == "rna"):
-        materialIn = "DNA" 
-    
-    result = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
+    result, myTime = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
 
-    return "{:.2e}".format(float(result)), '999.0'
+    return "{:.2e}".format(float(result)), "{:.2f}".format(float(myTime))
