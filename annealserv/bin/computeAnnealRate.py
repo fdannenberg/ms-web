@@ -2,8 +2,8 @@ from multistrand.concurrent import MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
 
 A_TIME_OUT = 1.0
-MAX_SEQ_LEN = 40
-MAX_TRIALS = 500
+MAX_SEQ_LEN = 16
+MAX_TRIALS = 200
 
 # class customResult(object):
 #     
