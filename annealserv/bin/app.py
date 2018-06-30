@@ -6,15 +6,15 @@ urls = (
 )
 
 app = web.application(urls, globals())
-
 render = web.template.render('templates/')
 
-MAX_SEQ_LEN = 16
+MAX_SEQ_LEN = 24
 
 
 class Index(object):
     
     prev_time = -99999.9
+    computedRates = 0
     
     def GET(self):
         return render.start_form()
@@ -27,22 +27,25 @@ class Index(object):
                 form.substrate = "DNA" 
 
         if len(form.sequence) > MAX_SEQ_LEN:
-            return render.errorpage(greeting=form.sequence, substrate=form.substrate, result=1e-36, computeTime=999.0)
+            return render.errorpage(greeting=form.sequence, substrate=form.substrate, result=1e-36, computeTime=999.0, nFor = 0, nRev =0)
         
         if (time.time() - self.prev_time) < 4.0:
-            return render.errorpage(greeting="Please do not submit jobs this fast!", substrate=form.substrate, result=1e-36, computeTime=999.0)
+            return render.errorpage(greeting="Please do not submit jobs this fast!", substrate=form.substrate, result=1e-36, computeTime=999.0, nFor = 0, nRev =0)
         
         try:
-            self.prev_time = time.time()
+#             self.prev_time = time.time()
             form.result = compute(form.sequence, form.substrate)
+#             self.computedRates = self.computedRates + 1
+#             print "Rates computes = " + str(self.computedRates) + "\n"
 
         except Exception as e:
-            return render.errorpage(greeting=form.sequence, substrate=form.substrate, result=1e-36, computeTime=999.0)
+            print str(e)
+            return render.errorpage(greeting=form.sequence, substrate="Exception", result=1e-36, computeTime=999.0, nFor = 0, nRev =0)
 
         if float(form.result[0]) < 10.0 ** -30:
-            return render.errorpage(greeting=form.sequence, substrate=form.substrate, result=1e-36, computeTime=999.0)
+            return render.errorpage(greeting=form.sequence, substrate=form.substrate, result=1e-36, computeTime=999.0, nFor = 0, nRev =0)
         
-        return render.index(greeting=form.sequence, substrate=form.substrate, result=form.result[0], computeTime=form.result[1])
+        return render.index(greeting=form.sequence, substrate=form.substrate, result=form.result[0], computeTime=form.result[1], nFor = form.result[2], nRev = form.result[3])
 
 
 if __name__ == "__main__":

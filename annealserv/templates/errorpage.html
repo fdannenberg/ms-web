@@ -1,4 +1,4 @@
-$def with (greeting, substrate, result, computeTime)
+$def with (greeting, substrate, result, computeTime,  nFor, nRev)
 
 <html>
     <head>
@@ -7,12 +7,13 @@ $def with (greeting, substrate, result, computeTime)
 <body>
 
 
-<h1>Anneal webserver v0.1</h1>
+<h1>AnnealServ v0.1</h1>
 
 $if greeting:
     Computing the hybridization rate failed. <br>
     <br />  
     Sequence	&#09 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
+    Error   		 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
  
 $else:
     <em>Please supply a sequence.</em>
