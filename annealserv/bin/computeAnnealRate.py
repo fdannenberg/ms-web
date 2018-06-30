@@ -2,7 +2,6 @@ from multistrand.concurrent import MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
 
 A_TIME_OUT = 1.0
-MAX_SEQ_LEN = 16
 MAX_TRIALS = 200
 
 # class customResult(object):
@@ -37,10 +36,6 @@ def compute(strand_seq, materialIn=None):
     if not (materialIn == "RNA" or materialIn == "rna"):
         materialIn = "DNA" 
     
-    if len(strand_seq) < MAX_SEQ_LEN:
-        result = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
-    else:
-        result = 10 ** - 99
-    
+    result = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
 
     return "{:.2e}".format(float(result)), '999.0'
