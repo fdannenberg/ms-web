@@ -27,7 +27,7 @@ def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
     
     print myMultistrand.results
     
-    return (myMultistrand.results.k1() , myMultistrand.runTime, myMultistrand.nForward, myMultistrand.nReverse)
+    return (myMultistrand.results.k1() , myMultistrand.runTime, myMultistrand.nForward.value, myMultistrand.nReverse.value)
 
 
 def compute(strand_seq, materialIn=None):
