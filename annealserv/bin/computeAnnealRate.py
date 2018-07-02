@@ -12,7 +12,7 @@ def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
         
     def getOptions(trials, material):
          
-        o = standardOptions(tempIn=25.0, trials=200, timeOut = A_TIME_OUT) 
+        o = standardOptions(tempIn=25.0, trials=200, timeOut=A_TIME_OUT) 
         hybridization(o, strand_seq, trials)
         
         return o
@@ -27,11 +27,20 @@ def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
     
     print myMultistrand.results
     
-    return (myMultistrand.results.k1() , myMultistrand.runTime, myMultistrand.nForward.value, myMultistrand.nReverse.value)
+    return myMultistrand
+#     return (myMultistrand.results , myMultistrand.runTime, myMultistrand.nForward.value, myMultistrand.nReverse.value)
 
 
 def compute(strand_seq, materialIn=None):
     
-    result, myTime, nFor, nRev = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
+    myMultistrand = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
 
-    return "{:.2e}".format(float(result)), "{:.2f}".format(float(myTime)), str(nFor), str(nRev)
+    result = myMultistrand.results
+    myTime = myMultistrand.runTime
+    nFor = myMultistrand.nForward.value
+    nRev = myMultistrand.nReverse.value
+    
+    k1 = result.k1()
+    low, high = result.doBootstrap()
+
+    return "{:.2e}".format(float(k1)), "{:.2f}".format(float(myTime)), str(nFor), str(nRev)
