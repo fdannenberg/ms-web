@@ -7,6 +7,7 @@ WALL_TIME_TIMEOUT = 30
 
 REQ_SUCCESS = 24
 TRIALS = 100
+
     
 def first_step_simulation(form):
  
@@ -42,25 +43,53 @@ def first_step_simulation(form):
     return myMultistrand
 
 
-def compute(form):
+def statespace_dissociation(form):
     
-    myMultistrand = first_step_simulation(form)
+    return None
 
-    result = myMultistrand.results
-    myTime = myMultistrand.runTime
-    nFor = myMultistrand.nForward.value
-    nRev = myMultistrand.nReverse.value
+
+def statespace_threewaybm(form):
     
-    k1 = result.k1()
-    low, high = result.doBootstrap()
-    
+    return None
+
+
+def compute(form):
+
     resultDict = dict()
-    resultDict['rate'] = "{:.2e}".format(float(k1))
-    resultDict['myTime'] = "{:.2f}".format(float(myTime))
-    resultDict['nFor'] = str(nFor)
-    resultDict['nRev'] = str(nRev)
-    resultDict['rLow'] = "{:.2e}".format(float(low))
-    resultDict['rHigh'] = "{:.2e}".format(float(high))
-    resultDict['temp'] = "{:.1f}".format(float(form['temperature']))
+    
+    if form.experiment == "association":
+
+        myMultistrand = first_step_simulation(form)
+    
+        result = myMultistrand.results
+        myTime = myMultistrand.runTime
+        nFor = myMultistrand.nForward.value
+        nRev = myMultistrand.nReverse.value
+        
+        k1 = result.k1()
+        low, high = result.doBootstrap()
+        
+        resultDict['rate'] = "{:.2e}".format(float(k1))
+        resultDict['myTime'] = "{:.2f}".format(float(myTime))
+        resultDict['nFor'] = str(nFor)
+        resultDict['nRev'] = str(nRev)
+        resultDict['rLow'] = "{:.2e}".format(float(low))
+        resultDict['rHigh'] = "{:.2e}".format(float(high))
+        resultDict['temp'] = "{:.1f}".format(float(form['temperature']))
+
+    elif form.experiment == "dissociation":
+        
+        myBuilderRate = statespace_dissociation(form)
+        
+        resultDict['rate'] = "1.0"
+    
+    elif form.experiment == "threewaybm":
+        
+        myBuilderRate = statespace_threewaybm(form)
+        
+        resultDict['rate'] = "1.0"
+    
+    else:
+        raise Exception("Experiment not found")
 
     return resultDict

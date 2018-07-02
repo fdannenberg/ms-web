@@ -10,6 +10,7 @@ render = web.template.render('templates/')
 
 MAX_SEQ_LEN = 100
 
+
 class Index(object):
     
     def GET(self):
