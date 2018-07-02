@@ -42,5 +42,15 @@ def compute(strand_seq, materialIn=None):
     
     k1 = result.k1()
     low, high = result.doBootstrap()
+    
+    resultDict = dict()
+    resultDict['rate'] = "{:.2e}".format(float(k1))
+    resultDict['myTime'] = "{:.2f}".format(float(myTime))
+    resultDict['nFor'] = str(nFor)
+    resultDict['nRev'] = str(nRev)
+    resultDict['rLow'] = "{:.2e}".format(float(low))
+    resultDict['rHigh'] = "{:.2e}".format(float(high))
 
-    return "{:.2e}".format(float(k1)), "{:.2f}".format(float(myTime)), str(nFor), str(nRev)
+
+
+    return resultDict

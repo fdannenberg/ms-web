@@ -1,4 +1,4 @@
-$def with (greeting, substrate, result, computeTime, nFor, nRev)
+$def with (greeting, substrate, result)
 
 <html>
     <head>
@@ -12,12 +12,12 @@ $def with (greeting, substrate, result, computeTime, nFor, nRev)
 $if greeting:
     Computed hybridization rate <br />
     <br />  
-    Simulation time	 : <code style="color: green; font-size: 1em;">$computeTime </code>  <br />
-    nForward         : <code style="color: green; font-size: 1em;">$nFor </code>  <br />
-    nReverse         : <code style="color: green; font-size: 1em;">$nRev </code>  <br />
-    Material		 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
-    Sequence		 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
-    Rate 			 : <code style="color: green; font-size: 1em;">$result /M /s </code>  
+    Simulation time	     : <code style="color: green; font-size: 1em;">$result['myTime'] </code>  <br />
+    nForward, nReverse   : <code style="color: green; font-size: 1em;">$result['nFor'] - $result['nRev'] </code>  <br />
+    C.I. 95%     		 : <code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br />
+    Material	     	 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
+    Sequence    		 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
+    Rate 		    	 : <code style="color: green; font-size: 1em;">$result['rate'] /M /s </code>  
  
     
 $else:
@@ -29,8 +29,8 @@ $else:
 	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="fdann@caltech.edu">fdann@caltech.edu</a>  <br> <br>
 	<emph> Computation ends when 25 succesful trajectories are found, or after 30 seconds, whichever occurs earlier. <emph> <br>
 	Based on the Multistrand and NUPACK software <br>
-	<a href="https://www.www.multistrand.org">www.multistrand.org</a> <br>
-	<a href="https://www.www.nupack.org">www.nupack.org</a> <br>
+	<a href="http://www.multistrand.org">www.multistrand.org</a> <br>
+	<a href="http://www.nupack.org">www.nupack.org</a> <br>
 	<br>
 </p>
 
