@@ -1,4 +1,4 @@
-$def with (sequence, substrate, result, inform)
+$def with (result, form)
 
 <html>
     <head>
@@ -9,11 +9,11 @@ $def with (sequence, substrate, result, inform)
 
 <h1>AnnealServ v0.11</h1>
 
-$if sequence:
+$if form.sequence:
     Computing the hybridization rate failed. <br>
     <br />  
-    Sequence	&#09 : <code style="color: green; font-size: 1em;">$sequence</code>  <br />  
-    Error   		 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
+    Sequence	&#09 : <code style="color: green; font-size: 1em;">$form.sequence</code>  <br />  
+    Error   		 : <code style="color: green; font-size: 1em;">$form.substrate </code>  <br />
  
 $else:
     <em>Please supply a sequence.</em>

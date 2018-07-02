@@ -23,24 +23,25 @@ class Index(object):
         form = web.input(substrate="Nameless job", sequence="AGCGTGA")
                 
         if len(form.sequence) > MAX_SEQ_LEN or len(form.sequence) < 3 :
-            return render.errorpage(sequence=form.sequence, substrate=form.substrate, result=1e-36, inform=form)
+            return render.errorpage(result=1e-36, form=form)
         
 #         if (time.time() - prev_time) < 8.0:
 #             return render.errorpage(greeting="Please do not submit jobs this quickly!", substrate=form.substrate, result=1e-36)
         
         try:
-            form.result = compute(form.sequence, form.substrate)
+            result = compute(form.sequence, form.substrate)
 #             self.computedRates = self.computedRates + 1
 #             print "Rates computes = " + str(self.computedRates) + "\n"
 
         except Exception as e:
             print str(e)
-            return render.errorpage(sequence=form.sequence, substrate="Exception", result=1e-36, inform=form)
+            form.substrate = "Exception"
+            return render.errorpage(result=1e-36, form=form)
 
-        if float(float(form.result['rate'])) < 10.0 ** -30:
-            return render.errorpage(sequence=form.sequence, substrate=form.substrate, result=1e-36, inform=form)
+        if float(float(result['rate'])) < 10.0 ** -30:
+            return render.errorpage(result=1e-36, form=form)
         
-        return render.resultpage(sequence=form.sequence, substrate=form.substrate, result=form.result, inform=form)
+        return render.resultpage(result=result, form=form)
 
 
 if __name__ == "__main__":

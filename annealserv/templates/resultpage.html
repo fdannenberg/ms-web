@@ -1,4 +1,4 @@
-$def with (sequence, substrate, result, inform)
+$def with (result, form)
 
 <html>
     <head>
@@ -14,11 +14,11 @@ $def with (sequence, substrate, result, inform)
 <h1>AnnealServ v0.11</h1>
 
 
-$if sequence:
+$if form.sequence:
 	<table>
 	  <tr>
 	    <td>Sequence</td>
-	    <td><code style="color: green; font-size: 1em;">$sequence</code> </td>
+	    <td><code style="color: green; font-size: 1em;">$form.sequence</code> </td>
 	  </tr>
 	  <tr>
 	    <td>Rate</td>
@@ -38,11 +38,11 @@ $if sequence:
 	  </tr>
 	   <tr>
 	    <td>Substrate </td>
-	    <td><code style="color: green; font-size: 1em;">$substrate </code>  <br /></td>
+	    <td><code style="color: green; font-size: 1em;">$form.substrate </code>  <br /></td>
 	  </tr>
 	   <tr>
 	    <td>Temperature </td>
-	    <td><code style="color: green; font-size: 1em;">$inform['temperature'] C </code>  <br /></td>
+	    <td><code style="color: green; font-size: 1em;">$form['temperature'] C </code>  <br /></td>
 	  </tr>
 	</table>
 
