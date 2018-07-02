@@ -1,4 +1,4 @@
-$def with (sequence, substrate, result)
+$def with (sequence, substrate, result, inform)
 
 <html>
     <head>
@@ -9,7 +9,7 @@ $def with (sequence, substrate, result)
 
 <h1>AnnealServ v0.11</h1>
 
-$if greeting:
+$if sequence:
     Computing the hybridization rate failed. <br>
     <br />  
     Sequence	&#09 : <code style="color: green; font-size: 1em;">$sequence</code>  <br />  
@@ -24,8 +24,8 @@ $else:
 	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="fdann@caltech.edu">fdann@caltech.edu</a>  <br> <br>
 	<emph> Computation ends when 25 succesful trajectories are found, or after 30 seconds, whichever occurs earlier. <emph> <br>
 	Based on the Multistrand and NUPACK software <br>
-	<a href="https://www.multistrand.org">www.multistrand.org</a> <br>
-	<a href="https://www.nupack.org">www.nupack.org</a> <br>
+	<a href="http://www.multistrand.org">www.multistrand.org</a> <br>
+	<a href="http://www.nupack.org">www.nupack.org</a> <br>
 	<br>
 </p>
 

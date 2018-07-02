@@ -1,4 +1,4 @@
-$def with (sequence, substrate, result)
+$def with (sequence, substrate, result, inform)
 
 <html>
     <head>
@@ -24,21 +24,25 @@ $if sequence:
 	    <td>Rate</td>
 	    <td><code style="color: green; font-size: 1em;">$result['rate'] /M /s </code> </td>
 	  </tr>
+	   <tr>
+	    <td>C.I. 95%  </td>
+	    <td><code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br /></td>
+	  </tr>
 	  <tr>
 	    <td>Simulation time  </td>
-	    <td><code style="color: green; font-size: 1em;">$result['myTime'] </code>  <br /></td>
+	    <td><code style="color: green; font-size: 1em;">$result['myTime'] s </code>  <br /></td>
 	  </tr>
 	  <tr>
 	    <td>nForward, nReverse &nbsp; </td>
 	    <td><code style="color: green; font-size: 1em;">$result['nFor'] - $result['nRev'] </code>  <br /></td>
 	  </tr>
 	   <tr>
-	    <td>C.I. 95%  </td>
-	    <td><code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br /></td>
-	  </tr>
-	   <tr>
 	    <td>Substrate </td>
 	    <td><code style="color: green; font-size: 1em;">$substrate </code>  <br /></td>
+	  </tr>
+	   <tr>
+	    <td>Temperature </td>
+	    <td><code style="color: green; font-size: 1em;">$inform['temperature'] C </code>  <br /></td>
 	  </tr>
 	</table>
 

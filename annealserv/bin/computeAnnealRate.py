@@ -6,7 +6,7 @@ MAX_TRIALS = 20000
 WALL_TIME_TIMEOUT = 30
 
     
-def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
+def first_step_simulation(strand_seq, successC, tempIn=20.0, material="DNA"):
  
     print ("Running first step mode simulations for %s (with Boltzmann sampling)..." % (strand_seq))
         
@@ -28,12 +28,13 @@ def first_step_simulation(strand_seq, successC, T=20.0, material="DNA"):
     print myMultistrand.results
     
     return myMultistrand
-#     return (myMultistrand.results , myMultistrand.runTime, myMultistrand.nForward.value, myMultistrand.nReverse.value)
 
 
 def compute(strand_seq, materialIn=None):
     
-    myMultistrand = first_step_simulation(strand_seq, 24, T=25.0, material=materialIn)
+    temperature = 25.0
+    
+    myMultistrand  = first_step_simulation(strand_seq, 24, tempIn=temperature, material=materialIn)
 
     result = myMultistrand.results
     myTime = myMultistrand.runTime
@@ -50,7 +51,7 @@ def compute(strand_seq, materialIn=None):
     resultDict['nRev'] = str(nRev)
     resultDict['rLow'] = "{:.2e}".format(float(low))
     resultDict['rHigh'] = "{:.2e}".format(float(high))
-
-
+    resultDict['temp'] = "{:.1f}".format(float(temperature))
+    
 
     return resultDict
