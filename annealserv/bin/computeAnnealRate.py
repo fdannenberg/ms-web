@@ -1,40 +1,50 @@
-from multistrand.concurrent import MergeSim, MergeSimSettings
+from multistrand.concurrent import Literals, MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
 
-A_TIME_OUT = 2.0
+A_TIME_OUT = 4.0
 MAX_TRIALS = 20000
 WALL_TIME_TIMEOUT = 30
 
+REQ_SUCCESS = 24
+TRIALS = 100
     
-def first_step_simulation(strand_seq, successC, tempIn=20.0, material="DNA"):
+def first_step_simulation(form):
+ 
+    strand_seq = form['sequence']
  
     print ("Running first step mode simulations for %s (with Boltzmann sampling)..." % (strand_seq))
         
-    def getOptions(trials, material):
+    def getOptions(trials):
          
-        o = standardOptions(tempIn=25.0, trials=200, timeOut=A_TIME_OUT) 
+        o = standardOptions(tempIn=float(form['temperature']), timeOut=A_TIME_OUT) 
+        
+        o.num_simulations = TRIALS
         hybridization(o, strand_seq, trials)
+        o.sodium = form['sodium']
+        o.magnesium = form['magnesium']
+        o.concentration = 1.0E-9
+        
+        if "RNA" == form['substrate']:
+            o.substrate_type = Literals.substrateRNA
         
         return o
     
     MergeSimSettings.max_trials = MAX_TRIALS
     
     myMultistrand = MergeSim()
-    myMultistrand.setOptionsFactory2(getOptions, 60, material)
-    myMultistrand.setTerminationCriteria(successC)
+    myMultistrand.setOptionsFactory1(getOptions, TRIALS)
+    myMultistrand.setTerminationCriteria(REQ_SUCCESS)
     myMultistrand.settings.timeOut = WALL_TIME_TIMEOUT
     myMultistrand.run()
     
-    print myMultistrand.results
+#     print myMultistrand.results
     
     return myMultistrand
 
 
-def compute(strand_seq, materialIn=None):
+def compute(form):
     
-    temperature = 25.0
-    
-    myMultistrand  = first_step_simulation(strand_seq, 24, tempIn=temperature, material=materialIn)
+    myMultistrand = first_step_simulation(form)
 
     result = myMultistrand.results
     myTime = myMultistrand.runTime
@@ -51,7 +61,6 @@ def compute(strand_seq, materialIn=None):
     resultDict['nRev'] = str(nRev)
     resultDict['rLow'] = "{:.2e}".format(float(low))
     resultDict['rHigh'] = "{:.2e}".format(float(high))
-    resultDict['temp'] = "{:.1f}".format(float(temperature))
-    
+    resultDict['temp'] = "{:.1f}".format(float(form['temperature']))
 
     return resultDict

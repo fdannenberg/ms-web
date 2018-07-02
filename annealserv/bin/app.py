@@ -8,12 +8,9 @@ urls = (
 app = web.application(urls, globals())
 render = web.template.render('templates/')
 
-MAX_SEQ_LEN = 80
-
+MAX_SEQ_LEN = 100
 
 class Index(object):
-    
-#     computedRates = 0
     
     def GET(self):
         return render.start_form()
@@ -21,17 +18,12 @@ class Index(object):
     def POST(self):
         
         form = web.input(substrate="Nameless job", sequence="AGCGTGA")
-                
+        
         if len(form.sequence) > MAX_SEQ_LEN or len(form.sequence) < 3 :
             return render.errorpage(result=1e-36, form=form)
         
-#         if (time.time() - prev_time) < 8.0:
-#             return render.errorpage(greeting="Please do not submit jobs this quickly!", substrate=form.substrate, result=1e-36)
-        
         try:
-            result = compute(form.sequence, form.substrate)
-#             self.computedRates = self.computedRates + 1
-#             print "Rates computes = " + str(self.computedRates) + "\n"
+            result = compute(form)
 
         except Exception as e:
             print str(e)
