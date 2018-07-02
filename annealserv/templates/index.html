@@ -1,7 +1,11 @@
-$def with (greeting, substrate, result)
+$def with (sequence, substrate, result)
 
 <html>
     <head>
+    <style>
+        border-collapse: collapse;
+    	border: 1px solid black;
+    </style>
         <title>AnnealServ v0.11</title>
     </head>
 <body>
@@ -9,19 +13,38 @@ $def with (greeting, substrate, result)
 
 <h1>AnnealServ v0.11</h1>
 
-$if greeting:
-    Computed hybridization rate <br />
-    <br />  
-    Simulation time	     : <code style="color: green; font-size: 1em;">$result['myTime'] </code>  <br />
-    nForward, nReverse   : <code style="color: green; font-size: 1em;">$result['nFor'] - $result['nRev'] </code>  <br />
-    C.I. 95%     		 : <code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br />
-    Material	     	 : <code style="color: green; font-size: 1em;">$substrate </code>  <br />
-    Sequence    		 : <code style="color: green; font-size: 1em;">$greeting</code>  <br />  
-    Rate 		    	 : <code style="color: green; font-size: 1em;">$result['rate'] /M /s </code>  
- 
+
+$if sequence:
+	<table>
+	  <tr>
+	    <td>Sequence</td>
+	    <td><code style="color: green; font-size: 1em;">$sequence</code> </td>
+	  </tr>
+	  <tr>
+	    <td>Rate</td>
+	    <td><code style="color: green; font-size: 1em;">$result['rate'] /M /s </code> </td>
+	  </tr>
+	  <tr>
+	    <td>Simulation time  </td>
+	    <td><code style="color: green; font-size: 1em;">$result['myTime'] </code>  <br /></td>
+	  </tr>
+	  <tr>
+	    <td>nForward, nReverse &nbsp; </td>
+	    <td><code style="color: green; font-size: 1em;">$result['nFor'] - $result['nRev'] </code>  <br /></td>
+	  </tr>
+	   <tr>
+	    <td>C.I. 95%  </td>
+	    <td><code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br /></td>
+	  </tr>
+	   <tr>
+	    <td>Substrate </td>
+	    <td><code style="color: green; font-size: 1em;">$substrate </code>  <br /></td>
+	  </tr>
+	</table>
+
     
 $else:
-    <em>Please supply a job name and sequence.</em>
+    <em>Please supply a sequence.</em>
 <br>
 
 
