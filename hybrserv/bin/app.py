@@ -2,7 +2,7 @@ import web, time
 from computeAnnealRate import compute
 
 urls = (
-  '/annealserv', 'Index'
+  '/hybrserv', 'Index'
 )
 
 app = web.application(urls, globals())

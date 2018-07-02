@@ -5,15 +5,35 @@
         border-collapse: collapse;
     	border: 1px solid black;
     </style>
-<title>AnnealServ v0.12</title>
+<title>HybrServ v0.12</title>
 </head>
 <body>
 
-	<h1>AnnealServ v0.12</h1>
+	<h1>HybrServ v0.12</h1>
 
 	<div class="container">
-		<form action="/annealserv" method="POST">
-			Sequence (max 100 nt) <br> <input type="text" name="sequence"><br> 
+		<form action="/hybrserv" method="POST">
+			 	<input type="radio" name="experiment" value="Association" checked> Association
+ 				<input type="radio" name="experiment" value="Dissociation"> Dissociation
+ 				<input type="radio" name="experiment" value="Dissociation"> Toehold-mediated three-way branch migration  <br> <br>
+				<table>
+				<tr>
+					<td>
+					Sequence (max 100 nt)
+					</td>
+					<td>
+					Toehold 
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<input type="text" name="sequence">
+					</td>
+					<td>
+					<input type="text" name="toehold">
+					</td>
+				</tr>
+				</table>
 			 	<input type="radio" name="substrate" value="DNA" checked> DNA 
  				<input type="radio" name="substrate" value="RNA"> RNA <br> 
 				<BR>
