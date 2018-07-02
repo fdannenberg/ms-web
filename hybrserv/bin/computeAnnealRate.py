@@ -86,7 +86,7 @@ def compute(form):
     elif form.experiment == "threewaybm":
         
         myBuilderRate = statespace_threewaybm(form)
-        
+
         resultDict['rate'] = "1.0"
     
     else:

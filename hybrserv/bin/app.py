@@ -33,9 +33,15 @@ class Index(object):
 
         if float(float(result['rate'])) < 10.0 ** -30:
             return render.errorpage(result=1e-36, form=form)
-        
-        return render.resultpage(result=result, form=form)
 
+        if form.experiment == "dissociation":
+            return render.result_dissociation(result=result, form=form)
+
+        if form.experiment == "threewaybm":
+            return render.result_threewaybm(result=result, form=form)
+    
+        return render.result_association(result=result, form=form)
+        
 
 if __name__ == "__main__":
 

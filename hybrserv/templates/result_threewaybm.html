@@ -1,0 +1,46 @@
+$def with (result, form)
+
+<html>
+    <head>
+    <style>
+        border-collapse: collapse;
+    	border: 1px solid black;
+    </style>
+        <title>HybrServ v0.12</title>
+    </head>
+<body>
+
+
+<h1>HybrServ v0.12</h1>
+
+$form.experiment <br>
+
+$if form.sequence:
+	<table>
+	  <tr>
+	    <td>Sequence</td>
+	    <td><code style="color: green; font-size: 1em;">$form.sequence</code> </td>
+	  </tr>
+	  <tr>
+	    <td>Rate</td>
+	    <td><code style="color: green; font-size: 1em;">$result['rate'] /M /s </code> </td>
+	  </tr>
+	</table>
+    
+$else:
+    <em>Please supply a sequence.</em>
+<br>
+
+
+<p>
+	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="fdann@caltech.edu">fdann@caltech.edu</a>  <br> <br>
+	<emph> Computation ends when 24 succesful trajectories are found, or after 30 seconds, whichever occurs earlier. <emph> <br>
+	Based on the Multistrand and NUPACK software <br>
+	<a href="http://www.multistrand.org">www.multistrand.org</a> <br>
+	<a href="http://www.nupack.org">www.nupack.org</a> <br>
+	<br>
+</p>
+
+
+</body>
+</html>

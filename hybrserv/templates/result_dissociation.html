@@ -13,6 +13,7 @@ $def with (result, form)
 
 <h1>HybrServ v0.12</h1>
 
+$form.experiment <br>
 
 $if form.sequence:
 	<table>
@@ -24,28 +25,7 @@ $if form.sequence:
 	    <td>Rate</td>
 	    <td><code style="color: green; font-size: 1em;">$result['rate'] /M /s </code> </td>
 	  </tr>
-	   <tr>
-	    <td>C.I. 95%  </td>
-	    <td><code style="color: green; font-size: 1em;">$result['rLow'] - $result['rHigh'] </code>  <br /></td>
-	  </tr>
-	  <tr>
-	    <td>Simulation time  </td>
-	    <td><code style="color: green; font-size: 1em;">$result['myTime'] s </code>  <br /></td>
-	  </tr>
-	  <tr>
-	    <td>nForward, nReverse &nbsp; </td>
-	    <td><code style="color: green; font-size: 1em;">$result['nFor'] - $result['nRev'] </code>  <br /></td>
-	  </tr>
-	   <tr>
-	    <td>Substrate </td>
-	    <td><code style="color: green; font-size: 1em;">$form.substrate </code>  <br /></td>
-	  </tr>
-	   <tr>
-	    <td>Temperature </td>
-	    <td><code style="color: green; font-size: 1em;">$form['temperature'] C </code>  <br /></td>
-	  </tr>
 	</table>
-
     
 $else:
     <em>Please supply a sequence.</em>
