@@ -2,6 +2,12 @@ $def with (result, form)
 
 <html>
     <head>
+    <style>
+    div {
+    width: 548px;
+    word-wrap: break-word;
+	}
+    </style>
         <title>HybrServ v0.12</title>
     </head>
 <body>
@@ -10,10 +16,10 @@ $def with (result, form)
 <h1>HybrServ v0.12</h1>
 
 $if form.sequence:
-    Computing the hybridization rate failed. <br>
+    Input requirements for the $form.experiment method were not met. <br>
     <br />  
     Sequence	&#09 : <code style="color: green; font-size: 1em;">$form.sequence</code>  <br />  
-    Error   		 : <code style="color: green; font-size: 1em;">$form.substrate </code>  <br />
+    Substrate  		 : <code style="color: green; font-size: 1em;">$form.substrate </code>  <br />
  
 $else:
     <em>Please supply a sequence.</em>
@@ -21,8 +27,13 @@ $else:
 
 
 <p>
+<div>
+	Hybridization: Computation ends when 30 successful trajectories are found,  or after 30 seconds, whichever occurs earlier. The maximum sequence length is 100 nt.
+	Dissociation: Computation time is unrestricted, but maximum sequence length is 20 nt. 	
+	Threeway branch migration: Computation time is unrestricted, but the sum of sequence lengths should be less than 50 nt. 
+	Dissociation and branch migration rate computation is based on a rare event method, hybridization is based on First Step Mode. <br>
+</div> <br>
 	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="fdann@caltech.edu">fdann@caltech.edu</a>  <br> <br>
-	<emph> Computation ends when 24 succesful trajectories are found, or after 30 seconds, whichever occurs earlier. <emph> <br>
 	Based on the Multistrand and NUPACK software <br>
 	<a href="http://www.multistrand.org">www.multistrand.org</a> <br>
 	<a href="http://www.nupack.org">www.nupack.org</a> <br>

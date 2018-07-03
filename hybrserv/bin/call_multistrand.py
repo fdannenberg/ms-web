@@ -1,12 +1,19 @@
+import time
+
 from multistrand.concurrent import Literals, MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
+from multistrand.builder import Builder, BuilderRate, dissociationString, hybridizationString
+from multistrand.objects import StopCondition
 
 A_TIME_OUT = 4.0
 MAX_TRIALS = 20000
 WALL_TIME_TIMEOUT = 30
 
-REQ_SUCCESS = 24
+REQ_SUCCESS = 30
 TRIALS = 100
+
+BUILDER_TRIALS = 12
+BUILDER_TIMEOUT = 3e-5
 
     
 def first_step_simulation(form):
@@ -38,14 +45,51 @@ def first_step_simulation(form):
     myMultistrand.settings.timeOut = WALL_TIME_TIMEOUT
     myMultistrand.run()
     
-#     print myMultistrand.results
-    
     return myMultistrand
 
 
 def statespace_dissociation(form):
     
-    return None
+    strand_seq = form['sequence']
+    
+    ''' do not set the initial state -- allow builder to do this '''
+
+    def getOptions(arguments):
+         
+        o = standardOptions()
+        o.simulation_mode = Literals.trajectory
+        o.num_simulations = BUILDER_TRIALS
+
+        o.sodium = form['sodium']
+        o.magnesium = form['magnesium']
+        o.temperature = float(form['temperature'])
+        o.simulation_time = BUILDER_TIMEOUT 
+        
+        if "RNA" == form['substrate']:
+            o.substrate_type = Literals.substrateRNA
+        
+        endComplex = arguments[0]
+        
+        stopSuccess = StopCondition(Literals.success, [(endComplex, Literals.exact_macrostate, 0)])
+        o.stop_conditions = [stopSuccess]
+        
+        return o
+ 
+    startStates = hybridizationString(strand_seq)
+    endState = startStates[-1]
+    
+    Builder.verbosity = True
+    
+    myBuilder = Builder(getOptions, [endState[0]])
+    
+    ''' setting the precision to just 2 states will ensure the builder stops after a single iteration. '''
+    startTime = time.time()
+    myBuilder.genUntilConvergenceWithInitialState(2 , startStates[:(len(startStates) - 1)])
+    buildTime = time.time() - startTime
+
+    bRate = BuilderRate(myBuilder)
+    
+    return bRate , buildTime
 
 
 def statespace_threewaybm(form):
@@ -79,9 +123,13 @@ def compute(form):
 
     elif form.experiment == "dissociation":
         
-        myBuilderRate = statespace_dissociation(form)
+        bRate, bTime = statespace_dissociation(form) 
         
-        resultDict['rate'] = "1.0"
+        resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial())
+        resultDict['nStates'] = str(bRate.n_states)
+        resultDict['nTransitions'] = str(bRate.n_transitions)
+        resultDict['buildTime'] = "{:.2f}".format(bTime)
+        resultDict['solveTime'] = "{:.2f}".format(bRate.matrixTime)
     
     elif form.experiment == "threewaybm":
         

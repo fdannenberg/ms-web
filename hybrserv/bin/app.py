@@ -1,5 +1,5 @@
 import web, time
-from computeAnnealRate import compute
+from call_multistrand import compute
 
 urls = (
   '/hybrserv', 'Index'
@@ -7,8 +7,6 @@ urls = (
 
 app = web.application(urls, globals())
 render = web.template.render('templates/')
-
-MAX_SEQ_LEN = 100
 
 
 class Index(object):
@@ -20,7 +18,10 @@ class Index(object):
         
         form = web.input(substrate="Nameless job", sequence="AGCGTGA")
         
-        if len(form.sequence) > MAX_SEQ_LEN or len(form.sequence) < 3 :
+        if form.experiment == "hybridization" and len(form.sequence) > 100 or len(form.sequence) < 3 :
+            return render.errorpage(result=1e-36, form=form)
+        
+        if form.experiment == "dissociation" and len(form.sequence) > 20 or len(form.sequence) < 3 :
             return render.errorpage(result=1e-36, form=form)
         
         try:
