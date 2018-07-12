@@ -2,7 +2,7 @@ import time
 
 from multistrand.concurrent import Literals, MergeSim, MergeSimSettings
 from multistrand.experiment import standardOptions, hybridization
-from multistrand.builder import Builder, BuilderRate, dissociationString, hybridizationString
+from multistrand.builder import Builder, BuilderRate, dissociationString, hybridizationString, threewaybmString
 from multistrand.objects import StopCondition
 
 A_TIME_OUT = 4.0
@@ -12,8 +12,8 @@ WALL_TIME_TIMEOUT = 30
 REQ_SUCCESS = 30
 TRIALS = 100
 
-BUILDER_TRIALS = 12
-BUILDER_TIMEOUT = 3e-5
+BUILDER_TRIALS = 50
+BUILDER_TIMEOUT = 4e-4
 
     
 def first_step_simulation(form):
@@ -84,7 +84,9 @@ def statespace_dissociation(form):
     
     ''' setting the precision to just 2 states will ensure the builder stops after a single iteration. '''
     startTime = time.time()
-    myBuilder.genUntilConvergenceWithInitialState(2 , startStates[:(len(startStates) - 1)])
+    myBuilder.genAndSavePathsFromString(startStates[:(len(startStates) - 1)])
+#     myBuilder.fattenStateSpace()
+    
     buildTime = time.time() - startTime
 
     bRate = BuilderRate(myBuilder)
@@ -94,7 +96,50 @@ def statespace_dissociation(form):
 
 def statespace_threewaybm(form):
     
-    return None
+    strand_seq = form['sequence']
+    ltoehold = form['ltoehold']
+    rtoehold = form['rtoehold']
+    
+    ''' do not set the initial state -- allow builder to do this '''
+
+    def getOptions(arguments):
+         
+        o = standardOptions()
+        o.simulation_mode = Literals.trajectory
+        o.num_simulations = BUILDER_TRIALS
+
+        o.sodium = form['sodium']
+        o.magnesium = form['magnesium']
+        o.temperature = float(form['temperature'])
+        o.simulation_time = BUILDER_TIMEOUT 
+        
+        if "RNA" == form['substrate']:
+            o.substrate_type = Literals.substrateRNA
+        
+        endComplex = arguments[0]
+        
+        stopSuccess = StopCondition(Literals.success, [(endComplex, Literals.exact_macrostate, 0)])
+        o.stop_conditions = [stopSuccess]
+        
+        return o
+ 
+    startStates = threewaybmString(ltoehold, strand_seq, rtoehold)
+    endState = startStates[-1]
+    
+    Builder.verbosity = True
+    
+    myBuilder = Builder(getOptions, [endState[0]])
+#     myBuilder.fattenStateSpace()
+    
+    ''' setting the precision to just 2 states will ensure the builder stops after a single iteration. '''
+    startTime = time.time()
+    myBuilder.genAndSavePathsFromString(startStates[:(len(startStates) - 1)])
+    myBuilder.fattenStateSpace()
+    buildTime = time.time() - startTime
+
+    bRate = BuilderRate(myBuilder)
+    
+    return bRate , buildTime
 
 
 def compute(form):
@@ -133,9 +178,13 @@ def compute(form):
     
     elif form.experiment == "threewaybm":
         
-        myBuilderRate = statespace_threewaybm(form)
-
-        resultDict['rate'] = "1.0"
+        bRate, bTime = statespace_threewaybm(form) 
+        
+        resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial(bimolecular=True))
+        resultDict['nStates'] = str(bRate.n_states)
+        resultDict['nTransitions'] = str(bRate.n_transitions)
+        resultDict['buildTime'] = "{:.2f}".format(bTime)
+        resultDict['solveTime'] = "{:.2f}".format(bRate.matrixTime)
     
     else:
         raise Exception("Experiment not found")

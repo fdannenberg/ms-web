@@ -18,10 +18,19 @@ class Index(object):
         
         form = web.input(substrate="Nameless job", sequence="AGCGTGA")
         
+#         web["submitbutton"].class = "not-active"
+        
+        
         if form.experiment == "hybridization" and len(form.sequence) > 100 or len(form.sequence) < 3 :
+            form.substrate = "Too long"
             return render.errorpage(result=1e-36, form=form)
         
         if form.experiment == "dissociation" and len(form.sequence) > 20 or len(form.sequence) < 3 :
+            form.substrate = "Too long"
+            return render.errorpage(result=1e-36, form=form)
+        
+        if form.experiment == "threewaybm" and (len(form.sequence) + len(form.ltoehold) + len(form.rtoehold)) > 50 or len(form.sequence) < 3 :
+            form.substrate = "Too long"
             return render.errorpage(result=1e-36, form=form)
         
         try:
@@ -32,18 +41,18 @@ class Index(object):
             form.substrate = "Exception"
             return render.errorpage(result=1e-36, form=form)
 
+        if form.experiment == "threewaybm":
+            return render.result_threewaybm(result=result, form=form)
+        
         if float(float(result['rate'])) < 10.0 ** -30:
             return render.errorpage(result=1e-36, form=form)
 
         if form.experiment == "dissociation":
             return render.result_dissociation(result=result, form=form)
 
-        if form.experiment == "threewaybm":
-            return render.result_threewaybm(result=result, form=form)
     
         return render.result_association(result=result, form=form)
-        
+
 
 if __name__ == "__main__":
-
     app.run()

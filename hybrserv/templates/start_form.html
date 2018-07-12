@@ -5,24 +5,72 @@
         border-collapse: collapse;
     	border: 1px solid black;
     </style>
+    <style media="screen" type="text/css">
+    	.not-active {
+ 		  pointer-events: none;
+		   cursor: default;
+		}
+    </style>
 <title>HybrServ v0.12</title>
 </head>
 <body>
+
+
+<!--  JScript starts here  -->
+
+<script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript"> 
+jQuery(function() {
+	jQuery("#submitbutton").on('click' , function(){
+		document.getElementById("submitbutton").className = "not-active";	    
+	});
+});
+
+jQuery(function() {
+	jQuery("#expSelect3").on('click' , function(){
+		jQuery("#lT").show()
+		jQuery("#rT").show()
+		jQuery("#text_rT").show()
+		jQuery("#text_lT").show()
+	});
+	jQuery("#expSelect1").on('click' , function(){
+		jQuery("#lT").hide()
+		jQuery("#rT").hide()
+		jQuery("#text_rT").hide()
+		jQuery("#text_lT").hide()
+	});
+	jQuery("#expSelect2").on('click' , function(){
+		jQuery("#lT").hide()
+		jQuery("#rT").hide()
+		jQuery("#text_rT").hide()
+		jQuery("#text_lT").hide()
+	});
+	
+});
+
+<!--  JScript ends here  -->
+
+
+</script>
+
 
 	<h1>HybrServ v0.12</h1>
 
 	<div class="container">
 		<form action="/hybrserv" method="POST">
-			 	<input type="radio" name="experiment" value="association" checked> Association
- 				<input type="radio" name="experiment" value="dissociation"> Dissociation
- 				<input type="radio" name="experiment" value="threewaybm"> Toehold-mediated three-way branch migration  <br> <br>
+			 	<input type="radio" id="expSelect1" name="experiment" value="association" checked> Association
+ 				<input type="radio" id="expSelect2" name="experiment" value="dissociation"> Dissociation
+ 				<input type="radio" id="expSelect3" name="experiment" value="threewaybm"> Toehold-mediated three-way branch migration  <br> <br>
 				<table>
 				<tr>
 					<td>
-					Sequence (max 100 nt)
+					Sequence
 					</td>
 					<td>
-					Toehold 
+					<div id = "text_lT" hidden> Left toehold </div> 
+					</td>
+					<td>
+					<div id = "text_rT" hidden> Right toehold </div>
 					</td>
 				</tr>
 				<tr>
@@ -30,7 +78,10 @@
 					<input type="text" name="sequence">
 					</td>
 					<td>
-					<input type="text" name="toehold">
+					<input type="text" name="ltoehold" id="lT" hidden>
+					</td>
+					<td>
+					<input type="text" name="rtoehold" id="rT" hidden>
 					</td>
 				</tr>
 				</table>
@@ -52,7 +103,7 @@
 				  </tr>
 				</table>
 				<BR>
-			<input type="submit">
+			<input type="submit" id="submitbutton" class="">
 		</form>
 	</div>
 
@@ -70,5 +121,7 @@
 	<br>
 </p>
 
+
 </body>
+
 </html>
