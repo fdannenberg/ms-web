@@ -1,4 +1,4 @@
-$def with (result, form)
+$def with (result, form_f)
 
 <html>
     <head>
@@ -15,11 +15,11 @@ $def with (result, form)
 
 <h1>HybrServ v0.12</h1>
 
-$if form.sequence:
+$if form_f.sequence:
     Input requirements for the $form.experiment method were not met. <br>
     <br />  
-    Sequence	&#09 : <code style="color: green; font-size: 1em;">$form.sequence</code>  <br />  
-    Error  		 : <code style="color: green; font-size: 1em;">$form.substrate </code>  <br />
+    Sequence	&#09 : <code style="color: green; font-size: 1em;">$form_f.sequence</code>  <br />  
+    Error  		 : <code style="color: green; font-size: 1em;">$form_f.substrate </code>  <br />
  
 $else:
     <em>Please supply a sequence.</em>

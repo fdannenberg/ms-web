@@ -1,4 +1,4 @@
-$def with (result, form)
+$def with (result, form_f)
 
 <html>
     <head>
@@ -13,17 +13,17 @@ $def with (result, form)
 
 <h1>HybrServ v0.12</h1>
 
-$form.experiment <br>
+$form_f.experiment <br>
 
-$if form.sequence:
+$if form_f.sequence:
 	<table>
 	  <tr>
 	    <td>Sequence</td>
-	    <td><code style="color: green; font-size: 1em;">$form.sequence</code> </td>
+	    <td><code style="color: green; font-size: 1em;">$form_f.sequence</code> </td>
 	  </tr>
 	  <tr>
 	    <td>Rate</td>
-	    <td><code style="color: green; font-size: 1em;">$result['rate'] /M /s </code> </td>
+	    <td><code style="color: green; font-size: 1em;">$result['rate'] /s </code> </td>
 	  </tr>
   	  <tr>
 	    <td>nStates</td>

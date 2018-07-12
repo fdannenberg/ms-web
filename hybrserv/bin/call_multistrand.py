@@ -13,26 +13,26 @@ REQ_SUCCESS = 30
 TRIALS = 100
 
 BUILDER_TRIALS = 50
-BUILDER_TIMEOUT = 4e-4
+BUILDER_TIMEOUT = 1e-4
 
     
-def first_step_simulation(form):
+def first_step_simulation(form_f):
  
-    strand_seq = form['sequence']
+    strand_seq = form_f['sequence']
  
     print ("Running first step mode simulations for %s (with Boltzmann sampling)..." % (strand_seq))
         
     def getOptions(trials):
          
-        o = standardOptions(tempIn=float(form['temperature']), timeOut=A_TIME_OUT) 
+        o = standardOptions(tempIn=float(form_f['temperature']), timeOut=A_TIME_OUT) 
         
         o.num_simulations = TRIALS
         hybridization(o, strand_seq, trials)
-        o.sodium = form['sodium']
-        o.magnesium = form['magnesium']
+        o.sodium = form_f['sodium']
+        o.magnesium = form_f['magnesium']
         o.concentration = 1.0E-9
         
-        if "RNA" == form['substrate']:
+        if "RNA" == form_f['substrate']:
             o.substrate_type = Literals.substrateRNA
         
         return o
@@ -75,7 +75,7 @@ def statespace_dissociation(form):
         
         return o
  
-    startStates = hybridizationString(strand_seq)
+    startStates = dissociationString(strand_seq)
     endState = startStates[-1]
     
     Builder.verbosity = True
@@ -142,13 +142,13 @@ def statespace_threewaybm(form):
     return bRate , buildTime
 
 
-def compute(form):
+def compute(form_f):
 
     resultDict = dict()
     
-    if form.experiment == "association":
+    if form_f.experiment == "association":
 
-        myMultistrand = first_step_simulation(form)
+        myMultistrand = first_step_simulation(form_f)
     
         result = myMultistrand.results
         myTime = myMultistrand.runTime
@@ -164,11 +164,11 @@ def compute(form):
         resultDict['nRev'] = str(nRev)
         resultDict['rLow'] = "{:.2e}".format(float(low))
         resultDict['rHigh'] = "{:.2e}".format(float(high))
-        resultDict['temp'] = "{:.1f}".format(float(form['temperature']))
+        resultDict['temp'] = "{:.1f}".format(float(form_f['temperature']))
 
-    elif form.experiment == "dissociation":
+    elif form_f.experiment == "dissociation":
         
-        bRate, bTime = statespace_dissociation(form) 
+        bRate, bTime = statespace_dissociation(form_f) 
         
         resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial())
         resultDict['nStates'] = str(bRate.n_states)
@@ -176,9 +176,9 @@ def compute(form):
         resultDict['buildTime'] = "{:.2f}".format(bTime)
         resultDict['solveTime'] = "{:.2f}".format(bRate.matrixTime)
     
-    elif form.experiment == "threewaybm":
+    elif form_f.experiment == "threewaybm":
         
-        bRate, bTime = statespace_threewaybm(form) 
+        bRate, bTime = statespace_threewaybm(form_f) 
         
         resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial(bimolecular=True))
         resultDict['nStates'] = str(bRate.n_states)
