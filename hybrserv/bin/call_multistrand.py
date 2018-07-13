@@ -9,11 +9,11 @@ A_TIME_OUT = 4.0
 MAX_TRIALS = 20000
 WALL_TIME_TIMEOUT = 30
 
-REQ_SUCCESS = 30
+# REQ_SUCCESS = 30
 TRIALS = 100
 
 BUILDER_TRIALS = 50
-BUILDER_TIMEOUT = 1e-3
+BUILDER_TIMEOUT = 2e-4
 
     
 def first_step_simulation(form_f):
@@ -41,16 +41,16 @@ def first_step_simulation(form_f):
     
     myMultistrand = MergeSim()
     myMultistrand.setOptionsFactory1(getOptions, TRIALS)
-    myMultistrand.setTerminationCriteria(REQ_SUCCESS)
-    myMultistrand.settings.timeOut = WALL_TIME_TIMEOUT
+    myMultistrand.setTerminationCriteria(int(form_f["trajectories"]))
+    myMultistrand.settings.timeOut = max(WALL_TIME_TIMEOUT, form_f["trajectories"])
     myMultistrand.run()
     
     return myMultistrand
 
 
-def statespace_dissociation(form):
+def statespace_dissociation(form_f):
     
-    strand_seq = form['sequence']
+    strand_seq = form_f['sequence']
     
     ''' do not set the initial state -- allow builder to do this '''
 
@@ -60,12 +60,12 @@ def statespace_dissociation(form):
         o.simulation_mode = Literals.trajectory
         o.num_simulations = BUILDER_TRIALS
 
-        o.sodium = form['sodium']
-        o.magnesium = form['magnesium']
-        o.temperature = float(form['temperature'])
+        o.sodium = form_f['sodium']
+        o.magnesium = form_f['magnesium']
+        o.temperature = float(form_f['temperature'])
         o.simulation_time = BUILDER_TIMEOUT 
         
-        if "RNA" == form['substrate']:
+        if "RNA" == form_f['substrate']:
             o.substrate_type = Literals.substrateRNA
         
         endComplex = arguments[0]
@@ -94,11 +94,11 @@ def statespace_dissociation(form):
     return bRate , buildTime
 
 
-def statespace_threewaybm(form):
+def statespace_threewaybm(form_f):
     
-    strand_seq = form['sequence']
-    ltoehold = form['ltoehold']
-    rtoehold = form['rtoehold']
+    strand_seq = form_f['sequence']
+    ltoehold = form_f['ltoehold']
+    rtoehold = form_f['rtoehold']
     
     ''' do not set the initial state -- allow builder to do this '''
 
@@ -108,12 +108,12 @@ def statespace_threewaybm(form):
         o.simulation_mode = Literals.trajectory
         o.num_simulations = BUILDER_TRIALS
 
-        o.sodium = form['sodium']
-        o.magnesium = form['magnesium']
-        o.temperature = float(form['temperature'])
+        o.sodium = form_f['sodium']
+        o.magnesium = form_f['magnesium']
+        o.temperature = float(form_f['temperature'])
         o.simulation_time = BUILDER_TIMEOUT 
         
-        if "RNA" == form['substrate']:
+        if "RNA" == form_f['substrate']:
             o.substrate_type = Literals.substrateRNA
         
         endComplex = arguments[0]

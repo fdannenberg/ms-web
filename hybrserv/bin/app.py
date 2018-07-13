@@ -1,6 +1,6 @@
 import web, time
 from call_multistrand import compute
-
+from web import form
 
 urls = (
   '/hybrserv', 'Index'
@@ -9,8 +9,6 @@ urls = (
 app = web.application(urls, globals())
 render = web.template.render('templates/')
 
-
-
 # Defining the buttons. 'id' stands for HTML id of the element.
 # #'value' is the value of the button as perceived by Python.
 # #'html' is the text displayed in HTML page. 'class_' is HTML class
@@ -18,18 +16,16 @@ render = web.template.render('templates/')
 #     form.Textbox('Temp:', id='modMe', value="loaded"),
 # )
 
+
 class Index(object):
     
     def GET(self):
+        
         return render.start_form()
 
     def POST(self):
         
         form_f = web.input(substrate="Nameless job", sequence="AGCGTGA")
-        
-
-#         m = modForm()
-#         m["modMe"].value = "test"
         
         if form_f.experiment == "hybridization" and len(form_f.sequence) > 100 or len(form_f.sequence) < 3 :
             form_f.substrate = "Too long"
