@@ -13,7 +13,7 @@ REQ_SUCCESS = 30
 TRIALS = 100
 
 BUILDER_TRIALS = 50
-BUILDER_TIMEOUT = 1e-4
+BUILDER_TIMEOUT = 1e-3
 
     
 def first_step_simulation(form_f):
@@ -170,7 +170,7 @@ def compute(form_f):
         
         bRate, bTime = statespace_dissociation(form_f) 
         
-        resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial())
+        resultDict['rate'] = "{:.2e}".format(1.0 / bRate.averageTimeFromInitial())
         resultDict['nStates'] = str(bRate.n_states)
         resultDict['nTransitions'] = str(bRate.n_transitions)
         resultDict['buildTime'] = "{:.2f}".format(bTime)
@@ -180,7 +180,7 @@ def compute(form_f):
         
         bRate, bTime = statespace_threewaybm(form_f) 
         
-        resultDict['rate'] = "{:.2e}".format(bRate.averageTimeFromInitial(bimolecular=True))
+        resultDict['rate'] = "{:.2e}".format(1.0 / bRate.averageTimeFromInitial(bimolecular=True))
         resultDict['nStates'] = str(bRate.n_states)
         resultDict['nTransitions'] = str(bRate.n_transitions)
         resultDict['buildTime'] = "{:.2f}".format(bTime)
