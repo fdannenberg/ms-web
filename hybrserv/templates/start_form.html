@@ -18,41 +18,93 @@
 
 <!--  JScript starts here  -->
 
+
+
+
+
 <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript"> 
 jQuery(function() {
+function timer(){
+    var sec = 1;
+    var timer = setInterval(function(){
+        document.getElementById('submittimer').innerHTML='Request for rate computation submitted. '+sec+' sec';
+        sec++;
+        if (sec < 0) {
+            clearInterval(timer);
+        }
+    }, 1000);
+}
 	jQuery("#submitbutton").on('click' , function(){
-		document.getElementById("submitbutton").className = "not-active";	    
+		document.getElementById("submitbutton").className = "not-active";
+		jQuery("#submittimer").show()
+		jQuery("#safeTimer").show()
+		timer()
 	});
 });
 
+
+
+
+
+
 jQuery(function() {
-	jQuery("#expSelect3").on('click' , function(){
-		jQuery("#lT").show()
-		jQuery("#rT").show()
-		jQuery("#text_rT").show()
-		jQuery("#text_lT").show()
-	});
+	
 	jQuery("#expSelect1").on('click' , function(){
 		jQuery("#lT").hide()
 		jQuery("#rT").hide()
 		jQuery("#text_rT").hide()
 		jQuery("#text_lT").hide()
+		
+		jQuery("#text_R1").show()
+		jQuery("#text_R2").hide()
+		jQuery("#text_R3").hide()
+		
+		jQuery("#text_R1D").show()
+		jQuery("#text_R2D").hide()
+		jQuery("#text_R3D").hide()
 	});
+	
 	jQuery("#expSelect2").on('click' , function(){
 		jQuery("#lT").hide()
 		jQuery("#rT").hide()
 		jQuery("#text_rT").hide()
 		jQuery("#text_lT").hide()
+
+		jQuery("#text_R1").hide()
+		jQuery("#text_R2").show()
+		jQuery("#text_R3").hide()
+
+		jQuery("#text_R1D").hide()
+		jQuery("#text_R2D").show()
+		jQuery("#text_R3D").hide()
+	
+	});
+
+	jQuery("#expSelect3").on('click' , function(){
+		jQuery("#lT").show()
+		jQuery("#rT").show()
+		jQuery("#text_rT").show()
+		jQuery("#text_lT").show()
+		
+		jQuery("#text_R1").hide()
+		jQuery("#text_R2").hide()
+		jQuery("#text_R3").show()
+
+		jQuery("#text_R1D").hide()
+		jQuery("#text_R2D").hide()
+		jQuery("#text_R3D").show()
+		
 	});
 	
 });
+
+
 
 <!--  JScript ends here  -->
 
 
 </script>
-
 
 	<h1>HybrServ v0.12</h1>
 
@@ -92,10 +144,49 @@ jQuery(function() {
 				  <tr>
 			          <td>Temp</td>
 	    			  <td><input type="number" name="temperature" value="25.0" step="0.01" min="5.0" max="95.0"> C </td>
+	    			  <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+	    			  <td> Reaction: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+	    			  <td> 
+		    			  <div id="text_R1" >
+			    			  <code>
+			    			  		..... &nbsp; + &nbsp; ..... &nbsp;&nbsp; -> &nbsp;&nbsp; (((((+)))))
+							  </code>
+						  </div>
+	  	    			  <div id="text_R2" hidden>
+			    			  <code>
+			    			  		(((((+))))) &nbsp;&nbsp; -> &nbsp;&nbsp; ..... &nbsp; + &nbsp; .....
+							  </code>
+						  </div>
+	   	    			  <div id="text_R3" hidden>
+			    			  <code>
+			    			  		......... &nbsp; + &nbsp; (((((+..))))).. &nbsp;&nbsp; -> &nbsp;&nbsp; ..... + (((((((((+)))))))))
+							  </code>
+						  </div>
+	    			  </td>
 				  </tr>
 				  <tr>
 			          <td>[Na+]</td>
 	    			  <td><input type="number" name="sodium" value="1.0" step="0.005" min="0.05" max="1.1"> M </td>
+	    			  <td></td>
+	    			  <td></td>
+	    			  <td>
+	    			  <div id="text_R1D" >
+		    			  <code>
+		    			  		&nbsp;S &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; S* 
+						  </code>
+					  </div>
+  	    			  <div id="text_R2D" hidden>
+		    			  <code>
+		    			  		&nbsp;S &nbsp;&nbsp;&nbsp; S* 
+						  </code>
+					  </div>
+   	    			  <div id="text_R3D" hidden>
+		    			  <code>
+		    			  		&nbsp;L &nbsp;S &nbsp;R  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    			  		S &nbsp;&nbsp; R*  S* L* 
+						  </code>
+					  </div>
+	    			  </td>
 				  </tr>
 				  <tr>
 			          <td>[Mg2+]&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -107,9 +198,28 @@ jQuery(function() {
 				  </tr>
 				</table>
 				<BR>
-			<input type="submit" id="submitbutton" class="">
+			<table>
+			<tr>
+				<td>
+					<input type="submit" id="submitbutton" class="">   
+				</td>
+				<td>
+				</td>
+				<td>
+					<em>
+					<font color="darkred">
+						<div id="submittimer" hidden>   
+							Request for rate computation submitted. 0 sec
+						 </div>
+					</font> 
+					</em>
+				</td>
+			</tr>
+			</table>
+			
 		</form>
 	</div>
+
 
 <p>
 <div>
@@ -122,7 +232,7 @@ jQuery(function() {
 	Threeway branch migration: The sum of sequence lengths should be less than 50 nt.  
 	 <br>
 </div> <br>
-	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="fdann@caltech.edu">fdann@caltech.edu</a>  <br> <br>
+	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="mailto:fdann@caltech.edu?Subject=Computing rates">fdann@caltech.edu</a>  <br> <br>
 	Based on the Multistrand and NUPACK software <br>
 	<a href="http://www.multistrand.org">www.multistrand.org</a> <br>
 	<a href="http://www.nupack.org">www.nupack.org</a> <br>

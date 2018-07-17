@@ -3,10 +3,8 @@ $def with (result, form_f)
 <html>
     <head>
     <style>
-    div {
-    width: 548px;
-    word-wrap: break-word;
-	}
+        border-collapse: collapse;
+    	border: 1px solid black;
     </style>
         <title>HybrServ v0.12</title>
     </head>
@@ -16,7 +14,7 @@ $def with (result, form_f)
 <h1>HybrServ v0.12</h1>
 
 $if form_f.sequence:
-    Input requirements for the $form.experiment method were not met. <br>
+    Input requirements for the $form_f.experiment method were not met. <br>
     <br />  
     Sequence	&#09 : <code style="color: green; font-size: 1em;">$form_f.sequence</code>  <br />  
     Error  		 : <code style="color: green; font-size: 1em;">$form_f.substrate </code>  <br />

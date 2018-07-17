@@ -28,15 +28,15 @@ class Index(object):
         form_f = web.input(substrate="Nameless job", sequence="AGCGTGA")
         
         if form_f.experiment == "hybridization" and len(form_f.sequence) > 100 or len(form_f.sequence) < 3 :
-            form_f.substrate = "Too long"
+            form_f.substrate = "Length requirements not met"
             return render.errorpage(result=1e-36, form_f=form_f)
         
         if form_f.experiment == "dissociation" and len(form_f.sequence) > 20 or len(form_f.sequence) < 3 :
-            form_f.substrate = "Too long"
+            form_f.substrate = "Length requirements not met"
             return render.errorpage(result=1e-36, form_f=form_f)
         
         if form_f.experiment == "threewaybm" and (len(form_f.sequence) + len(form_f.ltoehold) + len(form_f.rtoehold)) > 50 or len(form_f.sequence) < 3 :
-            form_f.substrate = "Too long"
+            form_f.substrate = "Length requirements not met"
             return render.errorpage(result=1e-36, form_f=form_f)
         
         try:
