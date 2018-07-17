@@ -9,12 +9,11 @@ A_TIME_OUT = 4.0
 MAX_TRIALS = 20000
 WALL_TIME_TIMEOUT = 30
 
-# REQ_SUCCESS = 30
 TRIALS = 100
 
-BUILDER_TRIALS = 50
-BUILDER_TIMEOUT = 2e-4
-
+BUILDER_TIMEOUT = 3e-3
+BUILDER_CONC = 1e-6
+B_MULT = 5
     
 def first_step_simulation(form_f):
  
@@ -58,7 +57,7 @@ def statespace_dissociation(form_f):
          
         o = standardOptions()
         o.simulation_mode = Literals.trajectory
-        o.num_simulations = BUILDER_TRIALS
+        o.num_simulations = B_MULT * form_f["trajectories"]
 
         o.sodium = form_f['sodium']
         o.magnesium = form_f['magnesium']
@@ -106,12 +105,14 @@ def statespace_threewaybm(form_f):
          
         o = standardOptions()
         o.simulation_mode = Literals.trajectory
-        o.num_simulations = BUILDER_TRIALS
+        o.num_simulations = B_MULT * form_f["trajectories"]
 
         o.sodium = form_f['sodium']
         o.magnesium = form_f['magnesium']
         o.temperature = float(form_f['temperature'])
         o.simulation_time = BUILDER_TIMEOUT 
+        
+        o.join_concentration = BUILDER_CONC
         
         if "RNA" == form_f['substrate']:
             o.substrate_type = Literals.substrateRNA
@@ -129,12 +130,11 @@ def statespace_threewaybm(form_f):
     Builder.verbosity = True
     
     myBuilder = Builder(getOptions, [endState[0]])
-#     myBuilder.fattenStateSpace()
     
     ''' setting the precision to just 2 states will ensure the builder stops after a single iteration. '''
     startTime = time.time()
     myBuilder.genAndSavePathsFromString(startStates[:(len(startStates) - 1)])
-    myBuilder.fattenStateSpace()
+#     myBuilder.fattenStateSpace()
     buildTime = time.time() - startTime
 
     bRate = BuilderRate(myBuilder)

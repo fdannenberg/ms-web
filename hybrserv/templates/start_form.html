@@ -1,3 +1,5 @@
+$def with (web_text)
+
 
 <html>
 <head>
@@ -11,7 +13,7 @@
 		   cursor: default;
 		}
     </style>
-<title>HybrServ v0.12</title>
+<title>$web_text['title']</title>
 </head>
 <body>
 
@@ -106,7 +108,7 @@ jQuery(function() {
 
 </script>
 
-	<h1>HybrServ v0.12</h1>
+	<h1>$web_text['title']</h1>
 
 	<div class="container">
 		<form action="/hybrserv" method="POST">
@@ -194,7 +196,7 @@ jQuery(function() {
 				  </tr>
 				  <tr>
 			          <td>N = </td>
-	    			  <td><input type="number" name="trajectories" value="30" step="1" min="5" max="100"> </td>
+	    			  <td><input type="number" name="trajectories" value="60" step="1" min="5" max="200"> </td>
 				  </tr>
 				</table>
 				<BR>
@@ -223,14 +225,8 @@ jQuery(function() {
 
 <p>
 <div>
-	Hybridization rate computation is based on First Step Mode. 
-	The computation ends when N successful trajectories are found or after max(N,30) seconds, whichever occurs earlier.
-	The maximum sequence length is 100 nt. 
-	Dissociation and toehold-mediated branch migration rate computation is based on an unpublished rare event simulation method.	
-	The simulation starts N trials with timeout 0.2ms along each point in a predetermined pathway. The computation time is unrestricted.
-	Dissociation: The maximum sequence length is 20 nt. 
-	Threeway branch migration: The sum of sequence lengths should be less than 50 nt.  
-	 <br>
+	$web_text['disclaimer']
+	<br>
 </div> <br>
 	Frits Dannenberg, Caltech 2018, all rights reserved. 	<a href="mailto:fdann@caltech.edu?Subject=Computing rates">fdann@caltech.edu</a>  <br> <br>
 	Based on the Multistrand and NUPACK software <br>
